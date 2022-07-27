@@ -1,0 +1,19 @@
+.main-heading,
+.secondary-heading {
+  padding: 2rem;
+  color: rgb(91, 91, 255);
+}
+
+.registration-form {
+  display: inline-grid;
+  gap: 1rem;
+  grid-template-rows: 3rem;
+  grid-template-columns: 20rem 20rem;
+}
+
+#user-submit-button {
+  display: grid;
+
+  grid-template-rows: 2rem;
+  grid-template-columns: 1fr;
+}
