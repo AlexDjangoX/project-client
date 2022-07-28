@@ -7,6 +7,8 @@ import styles from './PasswordChange.module.css';
 const PasswordChangeForm = ({
   handleChange,
   handleSubmit,
+  handleResetEmail,
+  handleSubmitEmail,
   changePasswordError,
   token,
 }) => {
@@ -38,7 +40,21 @@ const PasswordChangeForm = ({
             name='newPasswordConfirm'
             onChange={handleChange}
           />
-          {/* <Typography variant='body1' gutterBottom style={{ color: '#cc0000' }}>
+
+          {changePasswordError && (
+            <div className='error'>{changePasswordError}</div>
+          )}
+          <Button
+            startIcon={<SendIcon />}
+            id='user-submit-button'
+            type='submit'
+            variant='outlined'
+          >
+            Submit
+          </Button>
+        </form>
+        <form className={styles['login-form']} onSubmit={handleSubmitEmail}>
+          <Typography variant='body1' gutterBottom style={{ color: '#cc0000' }}>
             Forgotten your password ?
           </Typography>
 
@@ -48,12 +64,8 @@ const PasswordChangeForm = ({
             label='Provide email for reset link'
             variant='outlined'
             name='email'
-            onChange={handleChange}
+            onChange={handleResetEmail}
           />
-
-          {changePasswordError && (
-            <div className='error'>{changePasswordError}</div>
-          )} */}
           <Button
             startIcon={<SendIcon />}
             id='user-submit-button'

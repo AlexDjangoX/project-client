@@ -27,6 +27,7 @@ const PasswordChange = () => {
     newPassword: '',
     email,
   });
+  const [resetEmail, setResetEmail] = useState('');
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -41,16 +42,8 @@ const PasswordChange = () => {
         ...passwordReset,
         [name]: value,
       });
-      console.log('PASSWORD_RESET_OBJECT : ', passwordReset);
     }
   };
-  // {
-
-  //   "oldPassword":"a",
-  //   "newPassword":"b",
-  //   "email":"alexmonk22@gmail.com"
-
-  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,12 +57,38 @@ const PasswordChange = () => {
     }
     navigate('/');
   };
+
+  const handleResetEmail = (event) => {
+    event.preventDefault();
+    const { value, name } = event.target;
+
+    setResetEmail({
+      ...resetEmail,
+      [name]: value,
+    });
+  };
+
+  const handleSubmitEmail = (e) => {
+    e.preventDefault();
+    client
+      .post('/reset-forgot-password-link', resetEmail, false)
+      .then((res) => {
+        console.log(resetEmail);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <PasswordChangeForm
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       changePasswordError={changePasswordError}
       token={token}
+      handleResetEmail={handleResetEmail}
+      handleSubmitEmail={handleSubmitEmail}
     />
   );
 };

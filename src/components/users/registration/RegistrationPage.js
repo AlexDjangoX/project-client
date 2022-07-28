@@ -9,6 +9,7 @@ import styles from './Registration.module.css';
 
 const RegistrationPage = () => {
   const [user, setUser] = useState({});
+
   const [errorResponse, setErrorResponse] = useState({ status: '' });
   const { setLoggedInUser, loggedInUser } = useContext(Context);
 
@@ -46,10 +47,7 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className='registration-page'>
-      <Typography className={styles['main-heading']} variant='h3'>
-        Random Movie Generator
-      </Typography>
+    <div className={styles['registration-page']}>
       <Button
         className={styles['link-button']}
         variant='outlined'
