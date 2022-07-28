@@ -17,11 +17,12 @@ const PasswordChange = () => {
   const token = location.pathname.split('/')[3];
   let navigate = useNavigate();
   const [changePasswordError, setChangePasswordError] = useState(false);
-  const [passwordResetToken, setPasswordResetToken] = useState({
-    ...passwordResetObject,
-    token,
-    id,
-  });
+  const [passwordResetWithTokenEmail, setPasswordResetWithTokenEmail] =
+    useState({
+      ...passwordResetObject,
+      token,
+      id,
+    });
   const [passwordReset, setPasswordReset] = useState({
     oldPassword: '',
     newPassword: '',
@@ -33,10 +34,11 @@ const PasswordChange = () => {
     event.preventDefault();
     const { value, name } = event.target;
     if (id && token) {
-      setPasswordResetToken({
-        ...passwordResetToken,
+      setPasswordResetWithTokenEmail({
+        ...passwordResetWithTokenEmail,
         [name]: value,
       });
+      console.log(passwordResetWithTokenEmail);
     } else {
       setPasswordReset({
         ...passwordReset,
@@ -73,7 +75,18 @@ const PasswordChange = () => {
     client
       .post('/reset-forgot-password-link', resetEmail, false)
       .then((res) => {
-        console.log(resetEmail);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitChangePasswordWithToken = (event) => {
+    event.preventDefault();
+    client
+      .post('/reset-forgot-password', passwordResetWithTokenEmail, false)
+      .then((res) => {
         console.log(res);
       })
       .catch((error) => {
@@ -89,6 +102,7 @@ const PasswordChange = () => {
       token={token}
       handleResetEmail={handleResetEmail}
       handleSubmitEmail={handleSubmitEmail}
+      handleSubmitChangePasswordWithToken={handleSubmitChangePasswordWithToken}
     />
   );
 };

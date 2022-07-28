@@ -9,72 +9,116 @@ const PasswordChangeForm = ({
   handleSubmit,
   handleResetEmail,
   handleSubmitEmail,
+  handleSubmitChangePasswordWithToken,
   changePasswordError,
   token,
 }) => {
   return (
     <>
       <div>
-        <form className={styles['login-form']} onSubmit={handleSubmit}>
-          <TextField
-            className='user-form-input'
-            type='password'
-            label='Old Password'
-            variant='outlined'
-            name='oldPassword'
-            onChange={handleChange}
-          />
-          <TextField
-            className='user-form-input'
-            type='password'
-            label='New Password'
-            variant='outlined'
-            name='newPassword'
-            onChange={handleChange}
-          />
-          <TextField
-            className='user-form-input'
-            type='password'
-            label='Confirm New'
-            variant='outlined'
-            name='newPasswordConfirm'
-            onChange={handleChange}
-          />
-
-          {changePasswordError && (
-            <div className='error'>{changePasswordError}</div>
-          )}
-          <Button
-            startIcon={<SendIcon />}
-            id='user-submit-button'
-            type='submit'
-            variant='outlined'
+        {token && (
+          <form
+            className={styles['login-form']}
+            onSubmit={handleSubmitChangePasswordWithToken}
           >
-            Submit
-          </Button>
-        </form>
-        <form className={styles['login-form']} onSubmit={handleSubmitEmail}>
-          <Typography variant='body1' gutterBottom style={{ color: '#cc0000' }}>
-            Forgotten your password ?
-          </Typography>
+            <TextField
+              className='user-form-input'
+              type='password'
+              label='New Password'
+              variant='outlined'
+              name='newPassword'
+              onChange={handleChange}
+            />
+            <TextField
+              className='user-form-input'
+              type='password'
+              label='Confirm New'
+              variant='outlined'
+              name='newPasswordConfirm'
+              onChange={handleChange}
+            />
 
-          <TextField
-            className='user-form-input'
-            type='email'
-            label='Provide email for reset link'
-            variant='outlined'
-            name='email'
-            onChange={handleResetEmail}
-          />
-          <Button
-            startIcon={<SendIcon />}
-            id='user-submit-button'
-            type='submit'
-            variant='outlined'
-          >
-            Submit
-          </Button>
-        </form>
+            {changePasswordError && (
+              <div className='error'>{changePasswordError}</div>
+            )}
+            <Button
+              startIcon={<SendIcon />}
+              id='user-submit-button'
+              type='submit'
+              variant='outlined'
+            >
+              Submit
+            </Button>
+          </form>
+        )}
+        {!token && (
+          <div className={styles['password-reset-forms']}>
+            <form className={styles['login-form']} onSubmit={handleSubmit}>
+              <TextField
+                className='user-form-input'
+                type='password'
+                label='Old Password'
+                variant='outlined'
+                name='oldPassword'
+                onChange={handleChange}
+              />
+              <TextField
+                className='user-form-input'
+                type='password'
+                label='New Password'
+                variant='outlined'
+                name='newPassword'
+                onChange={handleChange}
+              />
+              <TextField
+                className='user-form-input'
+                type='password'
+                label='Confirm New'
+                variant='outlined'
+                name='newPasswordConfirm'
+                onChange={handleChange}
+              />
+
+              {changePasswordError && (
+                <div className='error'>{changePasswordError}</div>
+              )}
+              <Button
+                startIcon={<SendIcon />}
+                id='user-submit-button'
+                type='submit'
+                variant='outlined'
+              >
+                Submit
+              </Button>
+            </form>
+            <form className={styles['login-form']} onSubmit={handleSubmitEmail}>
+              <Typography
+                variant='body1'
+                gutterBottom
+                style={{ color: '#cc0000', paddingTop: '2rem' }}
+              >
+                Forgotten your password ?
+              </Typography>
+
+              <TextField
+                className='user-form-input'
+                type='email'
+                label='Provide email for reset link'
+                variant='outlined'
+                name='email'
+                onChange={handleResetEmail}
+              />
+              <Button
+                startIcon={<SendIcon />}
+                id='user-submit-button'
+                type='submit'
+                variant='outlined'
+              >
+                Submit
+              </Button>
+            </form>
+          </div>
+        )}
       </div>
     </>
   );

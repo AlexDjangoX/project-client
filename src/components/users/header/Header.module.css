@@ -5,6 +5,7 @@
     'left-nav main-heading right-nav';
   grid-template-rows: 5.5rem 5.5rem;
   grid-template-columns: 2fr 6fr 2fr;
+  padding-bottom: 2rem;
 }
 
 .left-nav {
