@@ -10,7 +10,7 @@ import styles from './Registration.module.css';
 const RegistrationPage = () => {
   const [user, setUser] = useState({});
   const [errorResponse, setErrorResponse] = useState({ status: '' });
-  const { setLoggedInUser } = useContext(Context);
+  const { setLoggedInUser, loggedInUser } = useContext(Context);
 
   let navigate = useNavigate();
 

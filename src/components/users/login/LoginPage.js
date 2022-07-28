@@ -56,8 +56,8 @@ const LoginPage = () => {
 
   return (
     <div className='login-page'>
-      <Typography className={styles['main-heading']} variant='h3'>
-        Random Movie Generator
+      <Typography className={styles['secondary-heading']} variant='h5'>
+        Login
       </Typography>
 
       <Button
@@ -69,13 +69,9 @@ const LoginPage = () => {
           sign up
         </Link>
       </Button>
-
-      <Typography className={styles['secondary-heading']} variant='h4'>
-        Login
-      </Typography>
       <Typography
         className={styles['para-status']}
-        variant='body1'
+        variant='body2'
         gutterBottom
       >
         Status: {loginResponse.status}

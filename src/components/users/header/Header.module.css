@@ -1,0 +1,36 @@
+.main-header {
+  display: grid;
+  grid-template-areas:
+    'left-nav main-heading right-nav'
+    'left-nav main-heading right-nav';
+  grid-template-rows: 5.5rem 5.5rem;
+  grid-template-columns: 2fr 6fr 2fr;
+}
+
+.left-nav {
+  display: grid;
+  grid-area: left-nav;
+  justify-content: center;
+  align-content: center;
+  background-color: rgb(61, 61, 61);
+}
+
+.main-heading {
+  display: grid;
+  grid-area: main-heading;
+  justify-content: center;
+  align-content: center;
+
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255);
+  font-size: 1.4rem;
+}
+
+.right-nav {
+  display: grid;
+  grid-area: right-nav;
+  justify-content: center;
+  align-content: center;
+  padding: 1.5rem;
+  background-color: rgb(183, 183, 183);
+}

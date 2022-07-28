@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import SendIcon from '@material-ui/icons/Send';
 import styles from './LoginForm.module.css';
 
 const LoginForm = ({ handleSubmit, handleChange, loginError }) => {
+  const navigation = useNavigate();
+
+  const handleNavigate = (e) => {
+    e.preventDefault();
+    navigation('/reset-forgot-password');
+  };
+
   return (
     <>
       <div>
@@ -40,6 +48,7 @@ const LoginForm = ({ handleSubmit, handleChange, loginError }) => {
             id=''
             type='submit'
             variant='contained'
+            onClick={handleNavigate}
           >
             Reset password
           </Button>
