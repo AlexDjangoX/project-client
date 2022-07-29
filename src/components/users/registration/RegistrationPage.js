@@ -48,6 +48,9 @@ const RegistrationPage = () => {
 
   return (
     <div className={styles['registration-page']}>
+      <Typography className={styles['secondary-heading']} variant='h5'>
+        Registration
+      </Typography>
       <Button
         className={styles['link-button']}
         variant='outlined'
@@ -57,10 +60,6 @@ const RegistrationPage = () => {
           login
         </Link>
       </Button>
-      <Typography className={styles['secondary-heading']} variant='h4'>
-        Registration
-      </Typography>
-
       <Typography variant='body1'>
         {errorResponse.status === 400 && errorResponse.data.data.email}
       </Typography>

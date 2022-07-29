@@ -1,10 +1,13 @@
 import React from 'react';
+import Search from '../albums/Search';
+import Albums from '../albums/Albums';
 
 const HomePage = () => {
   return (
-    <h1>
-      Welcome <br></br>HomePage
-    </h1>
+    <>
+      <Search />
+      <Albums />
+    </>
   );
 };
 

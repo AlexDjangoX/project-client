@@ -74,7 +74,7 @@ const LoginPage = () => {
         variant='body2'
         gutterBottom
       >
-        Status: {loginResponse.status}
+        {/* Status: {loginResponse.status} */}
       </Typography>
 
       <LoginForm
