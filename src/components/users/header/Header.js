@@ -13,20 +13,23 @@ const Header = () => {
       </div>
       <div className={styles['right-nav']}>
         <Button variant='outlined' color='primary'>
-          <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
+          <Link
+            to='/favorites'
+            style={{ textDecoration: 'none', color: 'black' }}
+          >
             Favorites
           </Link>
         </Button>
 
         <Button variant='outlined' color='primary'>
-          <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
-            Album Art
+          <Link to='/albums' style={{ textDecoration: 'none', color: 'black' }}>
+            Albums
           </Link>
         </Button>
 
         <Button variant='outlined' color='primary'>
           <Link
-            to='/'
+            to='/home'
             color='black'
             style={{ textDecoration: 'none', color: 'black' }}
           >

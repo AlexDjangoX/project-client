@@ -2,17 +2,52 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
 import Button from '@mui/material/Button';
 import styles from './Albums.module.css';
+import client from '../../../utils/client';
 
+const tset = {
+  userId: 2,
+  id_album: '2116681',
+  id_artist: '111258',
+  year_released: '1976',
+  str_album: 'Arrival',
+  album_thumb:
+    'https://www.theaudiodb.com/images/media/album/thumb/iepgyh1598422755.jpg',
+  str_artist: 'ABBA',
+  description: 'Arrival is the fourth stu',
+  genre: 'Pop',
+  review_score: 0,
+};
 const Albums = () => {
-  const { appData } = useContext(Context);
+  const { appData, favorites, setFavorites, loggedInUser } =
+    useContext(Context);
+  const id = loggedInUser.id;
   const [albumArt, setAlbumArt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [favorites, setFavorites] = useState([]);
   const [youTubeUrl, setYouTubeUrl] = useState('');
 
-  const updateFavoritesArray = (favorite) => {
-    if (!favorites.includes(favorite)) console.log(favorites);
-    setFavorites(() => [...favorites, favorite]);
+  const saveAlbumToDbAndUpdateFavoritesArray = (album) => {
+    const albumData = {
+      userId: loggedInUser.id,
+      id_album: album.idAlbum,
+      id_artist: album.idArtist,
+      year_released: album.intYearReleased,
+      str_album: album.strAlbum,
+      album_thumb: album.strAlbumThumb,
+      str_artist: album.strArtist,
+      description: album.strDescriptionEN?.slice(0, 50),
+      genre: album.strGenre,
+      review_score: 0,
+      my_review: 'Brilliant',
+    };
+    let favorite = album.strAlbumThumb;
+    console.log('FAVORITES : ', favorite);
+    try {
+      client.post(`/albums/${id}`, albumData);
+      if (!favorites.includes(favorite))
+        setFavorites(() => [...favorites, favorite]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const fetchAlbumData = async () => {
@@ -55,20 +90,22 @@ const Albums = () => {
       </div>
       <ul className={styles['auto-fit-column']}>
         {albumArt &&
-          albumArt.album.map((item, index) => (
+          albumArt.album.map((album, index) => (
             <>
               <li key={index * 2}>
                 <div className={styles.box}>
                   <div className={styles['add-to-favorites-btn']}>
                     <Button
-                      onClick={() => updateFavoritesArray(item.strAlbumThumb)}
+                      onClick={() =>
+                        saveAlbumToDbAndUpdateFavoritesArray(album)
+                      }
                     >
                       Add to Favorites
                     </Button>
                   </div>
                   <img
-                    src={item.strAlbumThumb}
-                    alt={item.strArtistStripped}
+                    src={album.strAlbumThumb}
+                    alt={album.strArtistStripped}
                     width='100%'
                     height='100%'
                   />

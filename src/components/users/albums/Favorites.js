@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Header from './Header';
+import React, { useContext } from 'react';
+import { Context } from '../../globalContext/globalContext';
 import Button from '@mui/material/Button';
 import styles from './Favorites.module.css';
 
-const Favorites = ({ favoriteAlbumArt, setFavoriteAlbumArt }) => {
+const Favorites = () => {
+  const { favorites } = useContext(Context);
+  console.log('FAVORITES : ', favorites);
   return (
     <>
-      <Header />
       <div>
-        {!favoriteAlbumArt && (
+        {!favorites && (
           <h3>
             Navigate Back to Search. Search for Artist. Select Album Art. Choose
             Favorites
@@ -16,8 +17,8 @@ const Favorites = ({ favoriteAlbumArt, setFavoriteAlbumArt }) => {
         )}
       </div>
       <ul className={styles['auto-fit-column']}>
-        {favoriteAlbumArt &&
-          favoriteAlbumArt.map((item, index) => (
+        {favorites &&
+          favorites.map((item, index) => (
             <>
               <li key={index} id={index}>
                 <div className={styles.box}>
