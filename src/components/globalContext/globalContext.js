@@ -6,8 +6,6 @@ const GlobalProvider = (props) => {
   const [appData, setAppData] = useState(null);
   const [idArtist, setIdArtist] = useState('');
   const [favorites, setFavorites] = useState([]);
-  console.log('GLOBAL_APP_DATA : ', appData);
-  console.log('GLOBAL_FAVORITES', favorites);
   const [loggedInUser, setLoggedInUser] = useState(
     JSON.parse(localStorage.getItem('loggedInUser'))
   );

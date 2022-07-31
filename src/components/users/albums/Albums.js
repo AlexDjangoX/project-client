@@ -3,6 +3,7 @@ import { Context } from '../../globalContext/globalContext';
 import Button from '@mui/material/Button';
 import styles from './Albums.module.css';
 import client from '../../../utils/client';
+import { useNavigate } from 'react-router-dom';
 
 const tset = {
   userId: 2,
@@ -23,7 +24,7 @@ const Albums = () => {
   const id = loggedInUser.id;
   const [albumArt, setAlbumArt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [youTubeUrl, setYouTubeUrl] = useState('');
+  const navigate = useNavigate();
 
   const saveAlbumToDbAndUpdateFavoritesArray = (album) => {
     const albumData = {
@@ -39,12 +40,10 @@ const Albums = () => {
       review_score: 0,
       my_review: 'Brilliant',
     };
-    let favorite = album.strAlbumThumb;
-    console.log('FAVORITES : ', favorite);
+
     try {
       client.post(`/albums/${id}`, albumData);
-      if (!favorites.includes(favorite))
-        setFavorites(() => [...favorites, favorite]);
+      setFavorites(() => [...favorites, albumData]);
     } catch (error) {
       console.error(error);
     }
@@ -55,28 +54,20 @@ const Albums = () => {
       `https://www.theaudiodb.com/api/v1/json/523532/album.php?i=${appData.artists[0].idArtist}`
     );
     const data = await response.json().catch((error) => console.error(error));
-    console.log('ALBUM_PHP : ', data);
     if (data) setAlbumArt(data);
-  };
-
-  const fetchYouTubeData = async () => {
-    const response = await fetch(
-      `https://www.theaudiodb.com/api/v1/json/523532/mvid.php?i=${appData.artists[0].idArtist}`
-    );
-    const data = await response.json().catch((error) => console.log(error));
-    console.log('MVID_PHP : ', data);
-    if (data) setYouTubeUrl(data.mvids[0].strMusicVid);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    if (appData) fetchAlbumData();
+    if (appData) {
+      fetchAlbumData();
+    }
     setIsLoading(false);
   }, [appData]);
 
-  useEffect(() => {
-    if (appData) fetchYouTubeData();
-  }, [appData]);
+  const routeToYouTube = (id) => {
+    navigate('/videos/' + id);
+  };
 
   return (
     <>
@@ -91,27 +82,26 @@ const Albums = () => {
       <ul className={styles['auto-fit-column']}>
         {albumArt &&
           albumArt.album.map((album, index) => (
-            <>
-              <li key={index * 2}>
-                <div className={styles.box}>
-                  <div className={styles['add-to-favorites-btn']}>
-                    <Button
-                      onClick={() =>
-                        saveAlbumToDbAndUpdateFavoritesArray(album)
-                      }
-                    >
-                      Add to Favorites
-                    </Button>
-                  </div>
-                  <img
-                    src={album.strAlbumThumb}
-                    alt={album.strArtistStripped}
-                    width='100%'
-                    height='100%'
-                  />
+            <li key={album.strAlbumThumb}>
+              <div className={styles.box}>
+                <div className={styles['add-to-favorites-btn']}>
+                  <Button
+                    onClick={() => saveAlbumToDbAndUpdateFavoritesArray(album)}
+                  >
+                    Add to Favorites
+                  </Button>
+                  <Button onClick={() => routeToYouTube(album.idAlbum)}>
+                    You tube
+                  </Button>
                 </div>
-              </li>
-            </>
+                <img
+                  src={album.strAlbumThumb}
+                  alt={album.strArtistStripped}
+                  width='100%'
+                  height='100%'
+                />
+              </div>
+            </li>
           ))}
       </ul>
     </>

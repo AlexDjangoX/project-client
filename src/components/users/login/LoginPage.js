@@ -8,7 +8,8 @@ import { Button, Typography } from '@mui/material';
 import styles from './LoginPage.module.css';
 
 const LoginPage = () => {
-  const { setLoggedInUser } = useContext(Context);
+  const { setLoggedInUser, setFavorites, loggedInUser } = useContext(Context);
+
   const [user, setUser] = useState({});
   const [loginResponse, setLoginResponse] = useState({
     data: { token: '', user: {} },
@@ -22,26 +23,24 @@ const LoginPage = () => {
     setLoginResponse({ data: { token: loadedToken } });
   }, []);
 
-  const loginUser = (event) => {
+  const loginUser = async (event) => {
     event.preventDefault();
-    client
-      .post('/login', user)
-      .then((res) => {
-        localStorage.setItem(
-          process.env.REACT_APP_USER_TOKEN,
-          res.data.data.token
-        );
-        localStorage.setItem(
-          'loggedInUser',
-          JSON.stringify(res.data.data.user)
-        );
-        setLoggedInUser(res.data.data.user);
-        setLoginResponse(res.data);
-        navigate('../home', { replace: true });
-      })
-      .catch((err) => {
-        setLoginError(err.response.data.data.email);
-      });
+
+    try {
+      const res = await client.post('/login', user);
+
+      localStorage.setItem(
+        process.env.REACT_APP_USER_TOKEN,
+        res.data.data.token
+      );
+      localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user));
+      setLoggedInUser(res.data.data.user);
+      setLoginResponse(res.data);
+      await fetchDataFromDB(res.data.data.user.id);
+      navigate('../home', { replace: true });
+    } catch (err) {
+      setLoginError(err.response.data.data.email);
+    }
   };
 
   const handleChange = (event) => {
@@ -52,6 +51,18 @@ const LoginPage = () => {
       ...user,
       [name]: value,
     });
+  };
+
+  const fetchDataFromDB = async (id) => {
+    try {
+      const response = await client.get(`/albums/${id}`);
+      const data = response.data.data.albums.map(
+        (album) => album.album.strAlbumThumb
+      );
+      setFavorites(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

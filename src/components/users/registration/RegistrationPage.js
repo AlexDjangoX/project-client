@@ -18,7 +18,7 @@ const RegistrationPage = () => {
   const registerUser = (event) => {
     event.preventDefault();
     client
-      .post('/user', user, false)
+      .post('/users', user, false)
       .then((res) => {
         localStorage.setItem(
           process.env.REACT_APP_USER_TOKEN,

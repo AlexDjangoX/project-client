@@ -7,6 +7,7 @@ import PasswordChange from './components/users/passwordChange/PasswordChange';
 import Header from './components/users/header/Header.js';
 import Albums from './components/users/albums/Albums.js';
 import Favorites from './components/users/albums/Favorites.js';
+import Videos from './components/users/albums/Videos';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/home' element={<HomePage />} />
         <Route path='/albums' element={<Albums />} />
         <Route path='/favorites' element={<Favorites />} />
+        <Route path='/videos/:id' element={<Videos />} />
         <Route
           path='/reset-forgot-password/:id/:token'
           element={<PasswordChange />}

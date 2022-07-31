@@ -5,7 +5,16 @@ import styles from './Favorites.module.css';
 
 const Favorites = () => {
   const { favorites } = useContext(Context);
-  console.log('FAVORITES : ', favorites);
+
+  const uniqueAlbumObjects = (arrayOfObjects) => {
+    const ids = arrayOfObjects.map((o) => o.id_album);
+    const filtered = arrayOfObjects.filter(
+      ({ id_album }, index) => !ids.includes(id_album, index + 1)
+    );
+    return filtered;
+  };
+  const albumsToRender = uniqueAlbumObjects(favorites);
+
   return (
     <>
       <div>
@@ -17,23 +26,21 @@ const Favorites = () => {
         )}
       </div>
       <ul className={styles['auto-fit-column']}>
-        {favorites &&
-          favorites.map((item, index) => (
-            <>
-              <li key={index} id={index}>
-                <div className={styles.box}>
-                  <div className={styles['delete-btn']}>
-                    <Button variant='contained'>Remove</Button>
-                  </div>
-                  <img
-                    src={item}
-                    alt={item.slice(0, 5)}
-                    width='100%'
-                    height='100%'
-                  />
+        {albumsToRender &&
+          albumsToRender.map((item, index) => (
+            <li key={item} id={index}>
+              <div className={styles.box}>
+                <div className={styles['delete-btn']}>
+                  <Button variant='contained'>Remove</Button>
                 </div>
-              </li>
-            </>
+                <img
+                  src={item.album_thumb}
+                  alt={item.album_thumb.slice(0, 5)}
+                  width='100%'
+                  height='100%'
+                />
+              </div>
+            </li>
           ))}
       </ul>
     </>
