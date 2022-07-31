@@ -38,7 +38,6 @@ const PasswordChange = () => {
         ...passwordResetWithTokenEmail,
         [name]: value,
       });
-      console.log(passwordResetWithTokenEmail);
     } else {
       setPasswordReset({
         ...passwordReset,

@@ -16,7 +16,7 @@ const Search = () => {
 
   const inputChangeHandler = (event) => {
     const { value } = event.target;
-    console.log(value);
+
     const formatValue = value.split(' ').join('_');
     setSearchQuery(formatValue);
   };
@@ -27,7 +27,7 @@ const Search = () => {
     );
 
     const data = await response.json().catch((error) => console.error(error));
-    console.log('DATA : ', data);
+  
     if (data) {
       setAppData(data);
       setIdArtist(data.artists[0].idArtist);

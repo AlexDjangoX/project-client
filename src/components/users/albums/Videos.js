@@ -9,13 +9,11 @@ const Videos = () => {
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
-  console.log('FAVORITES : ', favorites);
-  console.log('APP_DATA :  ', appData);
   const fetchYouTubeData = async () => {
     const response = await fetch(
       `https://www.theaudiodb.com/api/v1/json/523532/mvid.php?i=${appData.artists[0].idArtist}`
     );
-    const data = await response.json().catch((error) => console.log(error));
+    const data = await response.json().catch((error) => console.error(error));
     const videos = data.mvids.map((item) => {
       return {
         artist: item.idArtist,
@@ -25,7 +23,7 @@ const Videos = () => {
         youTubeUrl: item.strMusicVid,
       };
     });
-    console.log('VIDEOS : ', videos);
+
     if (data)
       setYouTubeUrl(data.mvids[1].strMusicVid.replace('watch?v=', 'embed/'));
   };

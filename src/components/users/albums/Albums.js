@@ -5,28 +5,14 @@ import styles from './Albums.module.css';
 import client from '../../../utils/client';
 import { useNavigate } from 'react-router-dom';
 
-const tset = {
-  userId: 2,
-  id_album: '2116681',
-  id_artist: '111258',
-  year_released: '1976',
-  str_album: 'Arrival',
-  album_thumb:
-    'https://www.theaudiodb.com/images/media/album/thumb/iepgyh1598422755.jpg',
-  str_artist: 'ABBA',
-  description: 'Arrival is the fourth stu',
-  genre: 'Pop',
-  review_score: 0,
-};
 const Albums = () => {
-  const { appData, favorites, setFavorites, loggedInUser } =
-    useContext(Context);
+  const { appData, setFavorites, loggedInUser } = useContext(Context);
   const id = loggedInUser.id;
   const [albumArt, setAlbumArt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const saveAlbumToDbAndUpdateFavoritesArray = (album) => {
+  const postAlbumToDbAndFetch = async (album) => {
     const albumData = {
       userId: loggedInUser.id,
       id_album: album.idAlbum,
@@ -43,7 +29,9 @@ const Albums = () => {
 
     try {
       client.post(`/albums/${id}`, albumData);
-      setFavorites(() => [...favorites, albumData]);
+      const response = await client.get(`/albums/${id}`);
+      const data = await response.data.data.albums.map((item) => item.album);
+      setFavorites(data);
     } catch (error) {
       console.error(error);
     }
@@ -85,9 +73,7 @@ const Albums = () => {
             <li key={album.strAlbumThumb}>
               <div className={styles.box}>
                 <div className={styles['add-to-favorites-btn']}>
-                  <Button
-                    onClick={() => saveAlbumToDbAndUpdateFavoritesArray(album)}
-                  >
+                  <Button onClick={() => postAlbumToDbAndFetch(album)}>
                     Add to Favorites
                   </Button>
                   <Button onClick={() => routeToYouTube(album.idAlbum)}>
