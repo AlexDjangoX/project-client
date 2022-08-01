@@ -8,7 +8,7 @@ const Header = () => {
     <div className={styles['main-header']}>
       <div className={styles['left-nav']}></div>
       <div className={styles['main-heading']}>
-        <h1>Love Music App</h1>
+        <h1>Virtual Vinyl Vault </h1>
         <p>For those who remember vinyl</p>
       </div>
       <div className={styles['right-nav']}>

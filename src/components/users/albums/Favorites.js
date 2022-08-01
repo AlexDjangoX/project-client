@@ -1,11 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../globalContext/globalContext';
+import client from '../../../utils/client';
+import { Typography } from '@mui/material';
 
-import Button from '@mui/material/Button';
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
-  const { favorites } = useContext(Context);
+  const { favorites, loggedInUser, fetchDataFromDB } = useContext(Context);
+
+  const deleteHandler = async (event, id) => {
+    event.preventDefault();
+
+    try {
+      await client.delete(`/albums/${id}`);
+      fetchDataFromDB(loggedInUser.id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -21,10 +33,9 @@ const Favorites = () => {
         {favorites &&
           favorites.map((item, index) => (
             <li key={item} id={index}>
+              <Typography>{`${item.strArtist}  `}</Typography>
+              <Typography>{` ${item.strAlbum.slice(0, 28)}`}</Typography>
               <div className={styles.box}>
-                <div className={styles['delete-btn']}>
-                  <Button variant='contained'>Remove</Button>
-                </div>
                 <img
                   src={item.strAlbumThumb}
                   alt={item.strAlbumThumb.slice(0, 2)}
@@ -32,6 +43,14 @@ const Favorites = () => {
                   height='100%'
                 />
               </div>
+              <button
+                className={styles['delete-btn']}
+                onClick={(event) =>
+                  deleteHandler(event, item.id, fetchDataFromDB)
+                }
+              >
+                Remove
+              </button>
             </li>
           ))}
       </ul>

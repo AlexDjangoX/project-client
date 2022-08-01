@@ -11,10 +11,6 @@ const GlobalProvider = (props) => {
     JSON.parse(localStorage.getItem('loggedInUser'))
   );
 
-  useEffect(() => {
-    fetchDataFromDB(loggedInUser.id);
-  }, []);
-
   const fetchDataFromDB = async (id) => {
     try {
       const response = await client.get(`/albums/${id}`);
@@ -24,6 +20,10 @@ const GlobalProvider = (props) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    fetchDataFromDB(loggedInUser.id);
+  }, [loggedInUser.id]);
 
   return (
     <Context.Provider
@@ -38,6 +38,7 @@ const GlobalProvider = (props) => {
         setFavorites,
         videoData,
         setVideoData,
+        fetchDataFromDB,
       }}
     >
       {props.children}

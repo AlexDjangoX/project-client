@@ -1,11 +1,7 @@
 .auto-fit-column {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  grid-gap: 4.5rem;
-}
-
-li {
-  list-style: none;
+  grid-gap: 1.5rem;
 }
 
 h3 {
@@ -14,9 +10,30 @@ h3 {
   font-weight: normal;
 }
 
+/* CSS */
+.delete-btn {
+  background-image: linear-gradient(#0dccea, #0d70ea);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 5px 15px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: Montserrat, sans-serif;
+  font-size: 0.9em;
+  margin: 5px;
+  padding: 2px 4px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
 .box {
   display: grid;
   grid-template-areas: 'box';
+  padding: 0.4rem;
+  border: 1px solid;
 }
 
 .box > *,

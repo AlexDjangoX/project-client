@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
-import { Stack, Link, Button, Typography } from '@mui/material';
-
+import { Stack, Button, Typography, Link } from '@mui/material';
 import styles from './Albums.module.css';
 import client from '../../../utils/client';
 import { useNavigate } from 'react-router-dom';
 import { style } from '@mui/system';
 
 const Albums = () => {
-  const { appData, setFavorites, loggedInUser, videoData, setVideoData } =
+  const { appData, fetchDataFromDB, loggedInUser, videoData, setVideoData } =
     useContext(Context);
-  const id = loggedInUser.id;
   const [albumArt, setAlbumArt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,10 +29,8 @@ const Albums = () => {
     };
 
     try {
-      client.post(`/albums/${id}`, albumData);
-      const response = await client.get(`/albums/${id}`);
-      const data = await response.data.data.albums.map((item) => item.album);
-      setFavorites(data);
+      client.post(`/albums/${loggedInUser.id}`, albumData);
+      fetchDataFromDB(loggedInUser.id);
     } catch (error) {
       console.error(error);
     }
@@ -54,7 +50,7 @@ const Albums = () => {
       `https://www.theaudiodb.com/api/v1/json/523532/mvid.php?i=${appData.artists[0].idArtist}`
     );
     const data = await response.json().catch((error) => console.error(error));
-    console.log('FETCH YOU TUBE DATA', data);
+
     const videos = data.mvids.map((item) => {
       return {
         artist: item.idArtist,
@@ -65,7 +61,6 @@ const Albums = () => {
       };
     });
 
-    console.log('VIDEOS : ', videos);
     if (data) setVideoData(videos);
   };
 
@@ -77,10 +72,6 @@ const Albums = () => {
     }
     setIsLoading(false);
   }, [appData]);
-
-  const routeToYouTube = (id) => {
-    navigate('/videos/' + id);
-  };
 
   return (
     <>
@@ -103,9 +94,6 @@ const Albums = () => {
                     <div className={styles['add-to-favorites-btn']}>
                       <Button onClick={() => postAlbumToDbAndFetch(album)}>
                         Add to Favorites
-                      </Button>
-                      <Button onClick={() => routeToYouTube(album.idAlbum)}>
-                        You tube
                       </Button>
                     </div>
                     <img
