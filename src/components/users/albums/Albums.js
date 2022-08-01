@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
-import Button from '@mui/material/Button';
+import { Stack, Link, Button, Typography } from '@mui/material';
+
 import styles from './Albums.module.css';
 import client from '../../../utils/client';
 import { useNavigate } from 'react-router-dom';
+import { style } from '@mui/system';
 
 const Albums = () => {
-  const { appData, setFavorites, loggedInUser } = useContext(Context);
+  const { appData, setFavorites, loggedInUser, videoData, setVideoData } =
+    useContext(Context);
   const id = loggedInUser.id;
   const [albumArt, setAlbumArt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,10 +48,32 @@ const Albums = () => {
     if (data) setAlbumArt(data);
   };
 
+  const fetchYouTubeData = async () => {
+    setVideoData([]);
+    const response = await fetch(
+      `https://www.theaudiodb.com/api/v1/json/523532/mvid.php?i=${appData.artists[0].idArtist}`
+    );
+    const data = await response.json().catch((error) => console.error(error));
+    console.log('FETCH YOU TUBE DATA', data);
+    const videos = data.mvids.map((item) => {
+      return {
+        artist: item.idArtist,
+        album: item.idAlbum,
+        trackName: item.strTrack,
+        trackThumb: item.strTrackThumb,
+        youTubeUrl: item.strMusicVid,
+      };
+    });
+
+    console.log('VIDEOS : ', videos);
+    if (data) setVideoData(videos);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     if (appData) {
       fetchAlbumData();
+      fetchYouTubeData();
     }
     setIsLoading(false);
   }, [appData]);
@@ -67,29 +92,57 @@ const Albums = () => {
           <div className={styles['left-search-bar']}></div>
         )}
       </div>
-      <ul className={styles['auto-fit-column']}>
-        {albumArt &&
-          albumArt.album.map((album, index) => (
-            <li key={album.strAlbumThumb}>
-              <div className={styles.box}>
-                <div className={styles['add-to-favorites-btn']}>
-                  <Button onClick={() => postAlbumToDbAndFetch(album)}>
-                    Add to Favorites
-                  </Button>
-                  <Button onClick={() => routeToYouTube(album.idAlbum)}>
-                    You tube
-                  </Button>
-                </div>
-                <img
-                  src={album.strAlbumThumb}
-                  alt={album.strArtistStripped}
-                  width='100%'
-                  height='100%'
-                />
-              </div>
-            </li>
-          ))}
-      </ul>
+
+      <div className={styles.wrapper}>
+        <div className={styles['album-covers']}>
+          <ul className={styles['auto-fit-column']}>
+            {albumArt &&
+              albumArt.album.map((album, index) => (
+                <li key={album.strAlbumThumb}>
+                  <div className={styles.box}>
+                    <div className={styles['add-to-favorites-btn']}>
+                      <Button onClick={() => postAlbumToDbAndFetch(album)}>
+                        Add to Favorites
+                      </Button>
+                      <Button onClick={() => routeToYouTube(album.idAlbum)}>
+                        You tube
+                      </Button>
+                    </div>
+                    <img
+                      src={album.strAlbumThumb}
+                      alt={album.strArtistStripped}
+                      width='100%'
+                      height='100%'
+                    />
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className={styles['song-list']}>
+          <ul>
+            {videoData &&
+              videoData.map((video, index) => {
+                return (
+                  <li key={video.trackName} id={index}>
+                    <Typography variant='h6'>
+                      <div spacing={1} direction='column' m={4}>
+                        <Link
+                          href={video.youTubeUrl.replace('watch?v=', 'embed/')}
+                          target='_blank'
+                          color='primary'
+                          underline='hover'
+                        >
+                          {video.trackName}
+                        </Link>
+                      </div>
+                    </Typography>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      </div>
     </>
   );
 };

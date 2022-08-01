@@ -1,3 +1,21 @@
+.wrapper {
+  background-color: rgb(192, 219, 255);
+  display: grid;
+  grid-template-areas: 'albums list';
+}
+
+.album-covers {
+  display: grid;
+  grid-area: albums;
+  background-color: blueviolet;
+}
+
+.song-list {
+  display: grid;
+  grid-area: list;
+  background-color: chartreuse;
+}
+
 .auto-fit-column {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));

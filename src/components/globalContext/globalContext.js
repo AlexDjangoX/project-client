@@ -6,6 +6,7 @@ const GlobalProvider = (props) => {
   const [appData, setAppData] = useState(null);
   const [idArtist, setIdArtist] = useState('');
   const [favorites, setFavorites] = useState([]);
+  const [videoData, setVideoData] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(
     JSON.parse(localStorage.getItem('loggedInUser'))
   );
@@ -35,6 +36,8 @@ const GlobalProvider = (props) => {
         setIdArtist,
         favorites,
         setFavorites,
+        videoData,
+        setVideoData,
       }}
     >
       {props.children}
