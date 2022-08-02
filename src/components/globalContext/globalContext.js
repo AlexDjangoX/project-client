@@ -7,6 +7,8 @@ const GlobalProvider = (props) => {
   const [idArtist, setIdArtist] = useState('');
   const [favorites, setFavorites] = useState([]);
   const [videoData, setVideoData] = useState([]);
+  const [componentState, setComponentState] = useState([]);
+  const [uniqueByArtistStr, setUniqueByArtistStr] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(
     JSON.parse(localStorage.getItem('loggedInUser'))
   );
@@ -16,6 +18,7 @@ const GlobalProvider = (props) => {
       const response = await client.get(`/albums/${id}`);
       const data = await response.data.data.albums.map((item) => item.album);
       setFavorites(data);
+      setComponentState(data);
     } catch (error) {
       console.error(error);
     }
@@ -23,7 +26,20 @@ const GlobalProvider = (props) => {
 
   useEffect(() => {
     fetchDataFromDB(loggedInUser.id);
+    console.log(loggedInUser.id);
   }, [loggedInUser.id]);
+
+  console.log(favorites);
+
+  const uniqueArtist = (array) => {
+    array.forEach((item) => {
+      if (!uniqueByArtistStr.includes(item.strArtist)) {
+        uniqueByArtistStr.push(item.strArtist);
+      }
+    });
+  };
+
+  uniqueArtist(favorites);
 
   return (
     <Context.Provider
@@ -39,6 +55,9 @@ const GlobalProvider = (props) => {
         videoData,
         setVideoData,
         fetchDataFromDB,
+        componentState,
+        setComponentState,
+        uniqueByArtistStr,
       }}
     >
       {props.children}

@@ -1,3 +1,21 @@
+.component-wrapper {
+  display: grid;
+  grid-template-areas: 'buttons albums';
+  grid-template-columns: 4fr 15fr;
+}
+
+.radio-btns {
+  display: grid;
+  grid-area: buttons;
+  padding-left: 1rem;
+}
+
+.album-covers {
+  display: grid;
+  grid-area: albums;
+  padding-right: 1rem;
+}
+
 .auto-fit-column {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
