@@ -29,7 +29,7 @@ const Albums = () => {
     };
 
     try {
-      client.post(`/albums/${loggedInUser.id}`, albumData);
+      await client.post(`/albums/${loggedInUser.id}`, albumData);
       fetchDataFromDB(loggedInUser.id);
     } catch (error) {
       console.error(error);

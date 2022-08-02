@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../../globalContext/globalContext';
 import client from '../../../utils/client';
 import {
@@ -14,33 +14,43 @@ import {
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
-  const {
-    favorites,
-    loggedInUser,
-    fetchDataFromDB,
-    componentState,
-    setComponentState,
-    uniqueByArtistStr,
-  } = useContext(Context);
+  const { favorites, loggedInUser, fetchDataFromDB, setComponentState } =
+    useContext(Context);
+  const [artistFilter, setArtistFilter] = useState('');
 
   const deleteHandler = async (event, id) => {
     event.preventDefault();
-    console.log('FAVORITES : ', favorites);
     try {
       await client.delete(`/albums/${id}`);
-      fetchDataFromDB(loggedInUser.id);
+      await fetchDataFromDB(loggedInUser.id);
       setComponentState(favorites);
     } catch (error) {
       console.error(error);
     }
-    console.log('COMPONENT STATE : ', componentState);
+  };
+
+  let uniqueByArtistStr = [];
+
+  favorites.forEach((item) => {
+    if (!uniqueByArtistStr.includes(item.strArtist)) {
+      uniqueByArtistStr.push(item.strArtist);
+    }
+  });
+
+  const filterByArtist = (artist) => {
+    const filtered = favorites.filter((album) => {
+      if (artist === '1') return true;
+      return album.strArtist === artist;
+    });
+
+    return filtered;
   };
 
   const handleFilter = (artist) => {
-    setComponentState(favorites);
-    const filtered = favorites.filter((item) => item.strArtist === artist);
-    setComponentState(filtered);
+    setArtistFilter(artist);
   };
+
+  const albumsToRender = filterByArtist(artistFilter);
 
   return (
     <>
@@ -63,9 +73,17 @@ const Favorites = () => {
                 name='favorite-albums'
                 aria-labelledby='fav-albums-group-label'
               >
+                <FormControlLabel
+                  key='1'
+                  control={<Radio />}
+                  label='All Albums'
+                  value='1'
+                  onClick={() => handleFilter('1')}
+                />
                 {uniqueByArtistStr &&
                   uniqueByArtistStr.map((item, index) => (
                     <FormControlLabel
+                      key={`${item}`.slice(0, 3)}
                       control={<Radio />}
                       label={`${item}`}
                       value={`${item}`}
@@ -78,9 +96,9 @@ const Favorites = () => {
         </div>
         <div className={styles['album-covers']}>
           <ul className={styles['auto-fit-column']}>
-            {componentState &&
-              componentState.map((item, index) => (
-                <li key={item} id={index}>
+            {albumsToRender.map((item, index) => {
+              return (
+                <li key={item.idAlbum + index} id={index}>
                   <Typography>{`${item.strArtist}  `}</Typography>
                   <Typography>{` ${item.strAlbum.slice(0, 16)}`}</Typography>
                   <div className={styles.box}>
@@ -100,7 +118,8 @@ const Favorites = () => {
                     Remove
                   </button>
                 </li>
-              ))}
+              );
+            })}
           </ul>
         </div>
       </div>
