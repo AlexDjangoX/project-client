@@ -20,7 +20,7 @@ function App() {
         <Route path='/home' element={<HomePage />} />
         <Route path='/albums' element={<Albums />} />
         <Route path='/favorites' element={<Favorites />} />
-        <Route path='/videos/:id' element={<Videos />} />
+        <Route path='/video' element={<Videos />} />
         <Route
           path='/reset-forgot-password/:id/:token'
           element={<PasswordChange />}

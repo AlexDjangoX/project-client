@@ -1,11 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './Videos.module.css';
 
 const Videos = () => {
+  const location = useLocation();
+  const youTubeUrl = location.state;
   return (
     <div className={styles['video-wrapper']}>
       <div className={styles['video-wrapper']}>
-        {/* {videoData && (
+        {youTubeUrl && (
           <iframe
             width='853'
             height='480'
@@ -15,7 +18,7 @@ const Videos = () => {
             allowFullScreen
             title='Embedded youtube'
           />
-        )} */}
+        )}
       </div>
       ;
     </div>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
-import { Stack, Button, Typography, Link } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import styles from './Albums.module.css';
 import client from '../../../utils/client';
 import { useNavigate } from 'react-router-dom';
-import { style } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const Albums = () => {
   const { appData, fetchDataFromDB, loggedInUser, videoData, setVideoData } =
@@ -116,10 +116,8 @@ const Albums = () => {
                     <Typography variant='h6'>
                       <div spacing={1} direction='column' m={4}>
                         <Link
-                          href={video.youTubeUrl.replace('watch?v=', 'embed/')}
-                          target='_blank'
-                          color='primary'
-                          underline='hover'
+                          to='/video/'
+                          state={video.youTubeUrl.replace('watch?v=', 'embed/')}
                         >
                           {video.trackName}
                         </Link>

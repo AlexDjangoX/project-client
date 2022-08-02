@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
 import client from '../../../utils/client';
 import { Typography } from '@mui/material';
