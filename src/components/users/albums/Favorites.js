@@ -54,16 +54,16 @@ const Favorites = () => {
 
   return (
     <>
-      <div>
+      <Box>
         {!favorites && (
           <h3>
             Navigate Back to Search. Search for Artist. Select Album Art. Choose
             Favorites
           </h3>
         )}
-      </div>
-      <div className={styles['component-wrapper']}>
-        <div className={styles['radio-btn']}>
+      </Box>
+      <Box className={styles['component-wrapper']}>
+        <Box className={styles['radio-btn']}>
           <Box>
             <FormControl>
               <FormLabel id='fav-albums-group-label'>
@@ -86,7 +86,7 @@ const Favorites = () => {
                     <FormControlLabel
                       key={`${item + index}`.slice(0, 3)}
                       control={<Radio />}
-                      label={`${item}`}
+                      label={`${item.slice(0, 14)}`}
                       value={`${item}`}
                       onClick={() => handleFilter(`${item}`)}
                     />
@@ -94,22 +94,22 @@ const Favorites = () => {
               </RadioGroup>
             </FormControl>
           </Box>
-        </div>
-        <div className={styles['album-covers']}>
+        </Box>
+        <Box className={styles['album-covers']}>
           <ul className={styles['auto-fit-column']}>
             {albumsToRender.map((item, index) => {
               return (
                 <li key={item.idAlbum + index} id={index}>
                   <Typography>{`${item.strArtist}  `}</Typography>
                   <Typography>{` ${item.strAlbum.slice(0, 16)}`}</Typography>
-                  <div className={styles.box}>
+                  <Box className={styles.box}>
                     <img
                       src={item.strAlbumThumb}
                       alt={item.strAlbumThumb.slice(0, 2)}
                       width='100%'
                       height='100%'
                     />
-                  </div>
+                  </Box>
                   <button
                     className={styles['delete-btn']}
                     onClick={(event) =>
@@ -122,8 +122,8 @@ const Favorites = () => {
               );
             })}
           </ul>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 };

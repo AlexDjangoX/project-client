@@ -44,3 +44,9 @@
   height: 20px;
   object-fit: cover;
 }
+
+.logo-image img {
+  padding: 0;
+  margin: 0;
+  height: 8rem;
+}

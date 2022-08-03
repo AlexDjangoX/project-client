@@ -22,7 +22,7 @@ const GlobalProvider = (props) => {
       console.error(error);
     }
   };
-
+  console.log(appData);
   useEffect(() => {
     fetchDataFromDB(loggedInUser.id);
   }, [loggedInUser.id]);

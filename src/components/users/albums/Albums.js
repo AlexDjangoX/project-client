@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../globalContext/globalContext';
-import { Button, Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import styles from './Albums.module.css';
 import client from '../../../utils/client';
 import { useNavigate } from 'react-router-dom';
@@ -75,38 +75,41 @@ const Albums = () => {
 
   return (
     <>
-      <div>
+      <Box>
         {!albumArt && (
           <h3>Navigate Back to Search. Search for Artist. Select Album Art</h3>
         )}
         {isLoading && albumArt && (
-          <div className={styles['left-search-bar']}></div>
+          <Box className={styles['left-search-bar']}></Box>
         )}
-      </div>
+      </Box>
 
-      <div className={styles.wrapper}>
-        <div className={styles['album-covers']}>
+      <Box className={styles.wrapper}>
+        <Box className={styles['album-covers']}>
           <ul className={styles['auto-fit-column']}>
             {albumArt &&
               albumArt.album.map((album, index) => (
                 <li key={album.strAlbumThumb}>
-                  <div className={styles.box}>
-                    <div className={styles['add-to-favorites-btn']}>
-                      <Button onClick={() => postAlbumToDbAndFetch(album)}>
-                        Add to Favorites
-                      </Button>
-                    </div>
+                  <Typography>{` ${album.strAlbum.slice(0, 15)}`}</Typography>
+                  <Box className={styles.box}>
                     <img
                       src={album.strAlbumThumb}
                       alt={album.strArtistStripped}
                       width='100%'
                       height='100%'
                     />
-                  </div>
+                  </Box>
+
+                  <button
+                    className={styles['delete-btn']}
+                    onClick={() => postAlbumToDbAndFetch(album)}
+                  >
+                    Add to Favorites
+                  </button>
                 </li>
               ))}
           </ul>
-        </div>
+        </Box>
         <div className={styles['song-list']}>
           <ul>
             {videoData &&
@@ -114,8 +117,20 @@ const Albums = () => {
                 return (
                   <li key={video.trackName} id={index}>
                     <Typography variant='h6'>
-                      <div spacing={1} direction='column' m={4}>
+                      <div
+                        className={styles['song-list-items']}
+                        spacing={1}
+                        direction='column'
+                        m={4}
+                      >
                         <Link
+                          style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            '&:hover': {
+                              color: 'red',
+                            },
+                          }}
                           to='/video/'
                           state={video.youTubeUrl.replace('watch?v=', 'embed/')}
                         >
@@ -128,7 +143,7 @@ const Albums = () => {
               })}
           </ul>
         </div>
-      </div>
+      </Box>
     </>
   );
 };

@@ -11,18 +11,10 @@ import {
   Typography,
   Button,
   Grid,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import styles from './Search.module.css';
-import {
-  SettingsInputComponent,
-  SettingsPowerRounded,
-} from '@material-ui/icons';
 
 const Search = () => {
   const { appData, setAppData, setIdArtist } = useContext(Context);
@@ -63,20 +55,20 @@ const Search = () => {
     event.preventDefault();
     setSearchQuery('');
   };
-  console.log(appData);
+
   return (
     <>
-      <div className={styles['search-bar-wrapper']}>
-        <div className={styles['search-bar-left']}>
+      <Box className={styles['search-bar-wrapper']}>
+        <Box className={styles['search-bar-left']}>
           {isLoading && searchQuery && (
-            <div className={styles['left-search-bar']}>
+            <Box className={styles['left-search-bar']}>
               <Stack spacing={2}>
                 <CircularProgress color='success' />
               </Stack>
-            </div>
+            </Box>
           )}
-        </div>
-        <div className={styles['search-bar']}>
+        </Box>
+        <Box className={styles['search-bar']}>
           <form className={styles.form} onSubmit={onSubmitHandler}>
             <input
               type='search'
@@ -93,32 +85,34 @@ const Search = () => {
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </form>
-        </div>
-        <div className={styles['search-bar-right']}>
+        </Box>
+        <Box className={styles['search-bar-right']}>
           {isLoading && searchQuery && (
-            <div className={styles['right-search-bar']}>
+            <Box className={styles['right-search-bar']}>
               <Stack spacing={2}>
                 <CircularProgress />
               </Stack>
-            </div>
+            </Box>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
       {appData && (
         <>
           <Box sx={{ textAlign: 'center' }} pt={2}>
             <Button onClick={() => setOpen(true)}>Read Biography</Button>
+          </Box>
+          <Box className={styles['logo-image']}>
+            <img
+              src={appData.artists[0].strArtistLogo}
+              alt={appData.artists[0].strArtist}
+            />
           </Box>
           <Grid container>
             <Grid
               item
               xs={12}
               style={{ height: '8vh', display: 'grid', placeItems: 'centre' }}
-            >
-              <Typography variant='h3'>
-                {appData.artists[0].strArtist}
-              </Typography>
-            </Grid>
+            ></Grid>
 
             <Grid item xs={12} justifyContent='center'></Grid>
           </Grid>

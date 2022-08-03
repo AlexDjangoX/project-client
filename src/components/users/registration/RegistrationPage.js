@@ -45,7 +45,7 @@ const RegistrationPage = () => {
       [name]: value,
     });
   };
-  console.log('USER : ', user);
+
   return (
     <div className={styles['registration-page']}>
       <Typography className={styles['secondary-heading']} variant='h5'>
