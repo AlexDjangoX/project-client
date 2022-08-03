@@ -1,0 +1,40 @@
+.carousel-wrapper {
+  display: grid;
+  justify-content: center;
+}
+
+.carousel {
+  width: 60%;
+}
+
+.carousel-inner {
+  height: 50%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+}
+.carousel-inner .left {
+  width: 15%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: aliceblue;
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+}
+
+.carousel-inner .center {
+  width: 70%;
+  height: 100%;
+}
+
+.carousel-inner .right {
+  width: 15%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: aliceblue;
+  display: grid;
+  place-items: center;
+}

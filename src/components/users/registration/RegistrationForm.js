@@ -47,7 +47,7 @@ const RegistrationForm = ({ handleSubmit, handleChange }) => {
       <TextField
         className='user-form-input'
         type='url'
-        label='Album link'
+        label='Your avatar link'
         variant='outlined'
         name='profile_url'
         onChange={handleChange}

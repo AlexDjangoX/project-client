@@ -17,6 +17,7 @@ const Favorites = () => {
   const { favorites, loggedInUser, fetchDataFromDB, setComponentState } =
     useContext(Context);
   const [artistFilter, setArtistFilter] = useState('');
+  const [displayAll, setDisplayAll] = useState(true);
 
   const deleteHandler = async (event, id) => {
     event.preventDefault();
@@ -42,7 +43,6 @@ const Favorites = () => {
       if (artist === '1') return true;
       return album.strArtist === artist;
     });
-
     return filtered;
   };
 
@@ -78,12 +78,13 @@ const Favorites = () => {
                   control={<Radio />}
                   label='All Albums'
                   value='1'
+                  // checked={displayAll}
                   onClick={() => handleFilter('1')}
                 />
                 {uniqueByArtistStr &&
                   uniqueByArtistStr.map((item, index) => (
                     <FormControlLabel
-                      key={`${item}`.slice(0, 3)}
+                      key={`${item + index}`.slice(0, 3)}
                       control={<Radio />}
                       label={`${item}`}
                       value={`${item}`}
