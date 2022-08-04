@@ -11,13 +11,15 @@ import {
   Typography,
   Button,
   Grid,
+  Alert,
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import styles from './Search.module.css';
 
 const Search = () => {
-  const { appData, setAppData, setIdArtist } = useContext(Context);
+  const { appData, setAppData, setIdArtist, apiError, setApiError } =
+    useContext(Context);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -32,18 +34,24 @@ const Search = () => {
   };
 
   const fetchDataFromApi = async (query) => {
-    const response = await fetch(
-      `https://www.theaudiodb.com/api/v1/json/523532/search.php?s=${query}`
-    );
+    try {
+      const response = await fetch(
+        `https://www.theaudiodb.com/api/v1/json/523532/search.php?s=${query}`
+      );
 
-    const data = await response.json().catch((error) => console.error(error));
+      const data = await response.json().catch((error) => console.error(error));
 
-    if (data) {
-      setAppData(data);
-      setIdArtist(data.artists[0].idArtist);
+      if (data && data.artists) {
+        setAppData(data);
+        setIdArtist(data.artists[0].idArtist);
+      } else {
+        setApiError(true);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
     }
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -149,6 +157,13 @@ const Search = () => {
             </Grid>
           </Grid>
         </>
+      )}
+      {apiError && (
+        <Box>
+          <Alert severity='error' variant='outlined'>
+            Please provide a valid name of Artist or Group
+          </Alert>
+        </Box>
       )}
     </>
   );

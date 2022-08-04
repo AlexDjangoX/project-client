@@ -9,7 +9,6 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  Stack,
   Rating,
 } from '@mui/material';
 
@@ -20,7 +19,6 @@ const Favorites = () => {
     useContext(Context);
   const [artistFilter, setArtistFilter] = useState('');
   const [displayAll, setDisplayAll] = useState(true);
-  const [rating, setRating] = useState(null);
 
   const deleteHandler = async (event, id) => {
     event.preventDefault();
@@ -39,6 +37,7 @@ const Favorites = () => {
     if (!uniqueByArtistStr.includes(item.strArtist)) {
       uniqueByArtistStr.push(item.strArtist);
     }
+    uniqueByArtistStr.sort();
   });
 
   const filterByArtist = (artist) => {

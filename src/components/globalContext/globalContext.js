@@ -8,6 +8,7 @@ const GlobalProvider = (props) => {
   const [favorites, setFavorites] = useState([]);
   const [videoData, setVideoData] = useState([]);
   const [componentState, setComponentState] = useState([]);
+  const [apiError, setApiError] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(
     JSON.parse(localStorage.getItem('loggedInUser'))
   );
@@ -16,13 +17,16 @@ const GlobalProvider = (props) => {
     try {
       const response = await client.get(`/albums/${id}`);
       const data = await response.data.data.albums.map((item) => item.album);
-      setFavorites(data);
-      setComponentState(data);
+      if (data) {
+        data.sort((a, b) => a.id - b.id);
+        setFavorites(data);
+        setComponentState(data);
+      }
     } catch (error) {
       console.error(error);
     }
   };
-  console.log(appData);
+
   useEffect(() => {
     fetchDataFromDB(loggedInUser.id);
   }, [loggedInUser.id]);
@@ -43,6 +47,8 @@ const GlobalProvider = (props) => {
         fetchDataFromDB,
         componentState,
         setComponentState,
+        apiError,
+        setApiError,
       }}
     >
       {props.children}
