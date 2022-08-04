@@ -1,17 +1,11 @@
 .main-heading,
 .secondary-heading {
-  padding: 2rem;
-  color: rgb(91, 91, 255);
+  padding: 0.8rem;
+  color: rgb(55, 55, 55);
 }
 
 .para-status {
-  padding: 2rem;
-}
-
-.link-button {
-  background-color: rgb(0, 255, 21);
-  margin: 1rem;
-  padding: 1.2rem;
+  padding: 0.5rem;
 }
 
 #user-registration-link {

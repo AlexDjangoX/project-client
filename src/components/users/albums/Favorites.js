@@ -39,14 +39,19 @@ const Favorites = () => {
   });
 
   const filterByArtist = (artist) => {
-    const filtered = favorites.filter((album) => {
+    let filtered = favorites.filter((album) => {
       if (artist === '1') return true;
       return album.strArtist === artist;
     });
+    if (displayAll) {
+      filtered = favorites;
+      return filtered;
+    }
     return filtered;
   };
 
   const handleFilter = (artist) => {
+    setDisplayAll(false);
     setArtistFilter(artist);
   };
 
@@ -84,7 +89,7 @@ const Favorites = () => {
                 {uniqueByArtistStr &&
                   uniqueByArtistStr.map((item, index) => (
                     <FormControlLabel
-                      key={`${item + index}`.slice(0, 3)}
+                      key={`${item + index}`.slice(0, 6)}
                       control={<Radio />}
                       label={`${item.slice(0, 14)}`}
                       value={`${item}`}

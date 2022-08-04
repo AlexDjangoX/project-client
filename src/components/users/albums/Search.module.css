@@ -10,7 +10,6 @@
   display: grid;
   justify-content: center;
   align-content: center;
-  padding: 4rem;
 }
 .search-bar-left {
   padding-left: 4rem;
@@ -26,7 +25,7 @@
 }
 .search-field {
   width: 100%;
-  padding: 10px 35px 10px 15px;
+  padding: 10px 120px 10px 15px;
   border: 1.5px solid rgb(81, 81, 81);
   border-radius: 100px;
   outline: none;

@@ -62,7 +62,11 @@ const LoginPage = () => {
         variant='outlined'
         color='primary'
       >
-        <Link id='user-registration-link' to='/signup'>
+        <Link
+          style={{ textDecoration: 'none', color: 'black' }}
+          id='user-registration-link'
+          to='/signup'
+        >
           sign up
         </Link>
       </Button>

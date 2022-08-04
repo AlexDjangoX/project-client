@@ -111,7 +111,7 @@ const Search = () => {
             <Grid
               item
               xs={12}
-              style={{ height: '8vh', display: 'grid', placeItems: 'centre' }}
+              style={{ height: '1vh', display: 'grid', placeItems: 'centre' }}
             ></Grid>
 
             <Grid item xs={12} justifyContent='center'></Grid>

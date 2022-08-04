@@ -11,6 +11,7 @@ const passwordResetObject = {
 
 const PasswordChange = () => {
   const { loggedInUser } = useContext(Context);
+  const [alert, setAlert] = useState(false);
   const email = loggedInUser.email;
   const location = useLocation();
   const id = location.pathname.split('/')[2];
@@ -93,6 +94,16 @@ const PasswordChange = () => {
       });
   };
 
+  const resetEmailSent = () => {
+    setAlert(true);
+  };
+
+  const redirectToLogIn = (e) => {
+    e.preventDefault();
+    setAlert(false);
+    navigate('/');
+  };
+
   return (
     <PasswordChangeForm
       handleChange={handleChange}
@@ -102,6 +113,9 @@ const PasswordChange = () => {
       handleResetEmail={handleResetEmail}
       handleSubmitEmail={handleSubmitEmail}
       handleSubmitChangePasswordWithToken={handleSubmitChangePasswordWithToken}
+      resetEmailSent={resetEmailSent}
+      alert={alert}
+      redirectToLogIn={redirectToLogIn}
     />
   );
 };
