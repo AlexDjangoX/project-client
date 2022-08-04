@@ -9,6 +9,8 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Stack,
+  Rating,
 } from '@mui/material';
 
 import styles from './Favorites.module.css';
@@ -18,6 +20,7 @@ const Favorites = () => {
     useContext(Context);
   const [artistFilter, setArtistFilter] = useState('');
   const [displayAll, setDisplayAll] = useState(true);
+  const [rating, setRating] = useState(null);
 
   const deleteHandler = async (event, id) => {
     event.preventDefault();
@@ -40,7 +43,7 @@ const Favorites = () => {
 
   const filterByArtist = (artist) => {
     let filtered = favorites.filter((album) => {
-      if (artist === '1') return true;
+      if (artist === 'Display all albums') return true;
       return album.strArtist === artist;
     });
     if (displayAll) {
@@ -56,6 +59,21 @@ const Favorites = () => {
   };
 
   const albumsToRender = filterByArtist(artistFilter);
+
+  const updateRating = async (event, id) => {
+    event.preventDefault();
+    let data = {
+      review_score: event.target.value,
+      id,
+    };
+    try {
+      await client.patch(`/albums/${id}`, data);
+      await fetchDataFromDB(loggedInUser.id);
+      setComponentState(favorites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -82,9 +100,9 @@ const Favorites = () => {
                   key='1'
                   control={<Radio />}
                   label='All Albums'
-                  value='1'
+                  value='Display all albums'
                   // checked={displayAll}
-                  onClick={() => handleFilter('1')}
+                  onClick={() => handleFilter('Display all albums')}
                 />
                 {uniqueByArtistStr &&
                   uniqueByArtistStr.map((item, index) => (
@@ -107,6 +125,12 @@ const Favorites = () => {
                 <li key={item.idAlbum + index} id={index}>
                   <Typography>{`${item.strArtist}  `}</Typography>
                   <Typography>{` ${item.strAlbum.slice(0, 16)}`}</Typography>
+                  <Box>
+                    <Rating
+                      value={item.reviewScore}
+                      onChange={(event) => updateRating(event, item.id)}
+                    ></Rating>
+                  </Box>
                   <Box className={styles.box}>
                     <img
                       src={item.strAlbumThumb}
@@ -115,6 +139,7 @@ const Favorites = () => {
                       height='100%'
                     />
                   </Box>
+
                   <button
                     className={styles['delete-btn']}
                     onClick={(event) =>
